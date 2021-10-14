@@ -1,8 +1,8 @@
 library(shiny)
-source("helpers.R")
-counties <- readRDS("counties.rds")
 library(maps)
 library(mapproj)
+source("helpers.R")
+counties <- readRDS("counties.rds")
 
 # User interface ----
 ui <- fluidPage(
@@ -37,10 +37,10 @@ server <- function(input, output) {
                    "Percent Hispanic" = counties$hispanic,
                    "Percent Asian" = counties$asian)
     color <- switch(input$var, 
-                    "Percent White" = "green",
+                    "Percent White" = "darkgreen",
                     "Percent Black" = "black",
-                    "Percent Hispanic" = "orange",
-                    "Percent Asian" = "violet")
+                    "Percent Hispanic" = "darkorange",
+                    "Percent Asian" = "darkviolet")
     
     legend <- switch(input$var, 
                      "Percent White" = "% White",
@@ -48,7 +48,7 @@ server <- function(input, output) {
                      "Percent Hispanic" = "% Hispanic",
                      "Percent Asian" = "% Asian")
     
-    percent_map(var = data, color = color, legend.title = legend, max = 100, min = 0)
+    percent_map(var = data, color = color, legend.title = legend, max = input$range[2], min = input$range[1])
   })
 }
 
